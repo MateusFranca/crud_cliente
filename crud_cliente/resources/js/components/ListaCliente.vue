@@ -6,6 +6,8 @@
         <tr>
           <th class="text-center">Nome</th>
           <th class="text-center">Email</th>
+          <th class="text-center">Telefone</th>
+          <th class="text-center">Sexo</th>
           <th class="text-center">Ações</th>
         </tr>
       </thead>
@@ -13,6 +15,8 @@
         <tr v-for="cliente in clientes" :key="cliente.id">
           <td class="text-center">{{ cliente.nome }}</td>
           <td class="text-center">{{ cliente.email }}</td>
+          <td class="text-center">{{ cliente.telefone  }}</td>
+          <td class="text-center">{{ cliente.sexo  }}</td>
           <td class="text-center">
             <button @click="editarCliente(cliente.id)" class="btn btn-primary">Editar</button>
             <button @click="excluirCliente(cliente.id)" class="btn btn-danger">Excluir</button>
@@ -33,8 +37,10 @@
             </button>
           </div>
           <div class="modal-body">
-            <p><strong>Nome:</strong> {{ detalhesCliente.nome }}</p>
-            <p><strong>Email:</strong> {{ detalhesCliente.email }}</p>
+            <p><strong>Nome:</strong> {{ clienteEditado.nome }}</p>
+            <p><strong>Email:</strong> {{ clienteEditado.email }}</p>
+            <p><strong>Telefone:</strong> {{ clienteEditado.telefone  }}</p>
+            <p><strong>Sexo:</strong> {{ clienteEditado.sexo }}</p>
           </div>
         </div>
       </div>
@@ -61,6 +67,14 @@
                   <label for="email">Email:</label>
                   <input type="text" class="form-control" id="email" v-model="clienteEditado.email">
                 </div>
+                <div class="form-group">
+                  <label for="telefone">Telefone:</label>
+                  <input type="text" class="form-control" id="telefone" v-model="clienteEditado.telefone">
+                </div>
+                <div class="form-group">
+                  <label for="sexo">Sexo:</label>
+                  <input type="text" class="form-control" id="sexo" v-model="clienteEditado.sexo">
+              </div>
                 <button type="submit" class="btn btn-primary">Salvar Alterações</button>
               </form>
             </div>
@@ -78,13 +92,18 @@ export default {
     return {
       clientes: [],
       detalhesCliente: {},
-      clienteEditado: {},
+      clienteEditado: {
+        nome: "",
+        email: "",
+        telefone: "",
+        sexo: "",
+      },
     };
   },
   methods: {
     exibirDetalhes(cliente) {
-      this.detalhesCliente = cliente;
-      this.abrirDetalhesModal();
+    this.clienteEditado = { ...cliente };
+    this.abrirDetalhesModal();
     },
     editarCliente(clienteId) {
     axios.get(`/api/clientes/${clienteId}`)

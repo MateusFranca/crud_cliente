@@ -2147,18 +2147,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       clientes: [],
       detalhesCliente: {},
-      clienteEditado: {}
+      clienteEditado: {
+        nome: "",
+        email: "",
+        telefone: "",
+        sexo: ""
+      }
     };
   },
   methods: {
     exibirDetalhes: function exibirDetalhes(cliente) {
-      this.detalhesCliente = cliente;
+      this.clienteEditado = _objectSpread({}, cliente);
       this.abrirDetalhesModal();
     },
     editarCliente: function editarCliente(clienteId) {
@@ -2424,6 +2435,10 @@ var render = function render() {
       staticClass: "text-center"
     }, [_vm._v(_vm._s(cliente.email))]), _vm._v(" "), _c("td", {
       staticClass: "text-center"
+    }, [_vm._v(_vm._s(cliente.telefone))]), _vm._v(" "), _c("td", {
+      staticClass: "text-center"
+    }, [_vm._v(_vm._s(cliente.sexo))]), _vm._v(" "), _c("td", {
+      staticClass: "text-center"
     }, [_c("button", {
       staticClass: "btn btn-primary",
       on: {
@@ -2479,7 +2494,7 @@ var render = function render() {
     }
   }, [_vm._v("×")])])]), _vm._v(" "), _c("div", {
     staticClass: "modal-body"
-  }, [_c("p", [_c("strong", [_vm._v("Nome:")]), _vm._v(" " + _vm._s(_vm.detalhesCliente.nome))]), _vm._v(" "), _c("p", [_c("strong", [_vm._v("Email:")]), _vm._v(" " + _vm._s(_vm.detalhesCliente.email))])])])])]), _vm._v(" "), _c("div", {
+  }, [_c("p", [_c("strong", [_vm._v("Nome:")]), _vm._v(" " + _vm._s(_vm.clienteEditado.nome))]), _vm._v(" "), _c("p", [_c("strong", [_vm._v("Email:")]), _vm._v(" " + _vm._s(_vm.clienteEditado.email))]), _vm._v(" "), _c("p", [_c("strong", [_vm._v("Telefone:")]), _vm._v(" " + _vm._s(_vm.clienteEditado.telefone))]), _vm._v(" "), _c("p", [_c("strong", [_vm._v("Sexo:")]), _vm._v(" " + _vm._s(_vm.clienteEditado.sexo))])])])])]), _vm._v(" "), _c("div", {
     staticClass: "modal",
     attrs: {
       id: "edicaoModal",
@@ -2573,6 +2588,60 @@ var render = function render() {
         _vm.$set(_vm.clienteEditado, "email", $event.target.value);
       }
     }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "telefone"
+    }
+  }, [_vm._v("Telefone:")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.clienteEditado.telefone,
+      expression: "clienteEditado.telefone"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      id: "telefone"
+    },
+    domProps: {
+      value: _vm.clienteEditado.telefone
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.clienteEditado, "telefone", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "sexo"
+    }
+  }, [_vm._v("Sexo:")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.clienteEditado.sexo,
+      expression: "clienteEditado.sexo"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      id: "sexo"
+    },
+    domProps: {
+      value: _vm.clienteEditado.sexo
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.clienteEditado, "sexo", $event.target.value);
+      }
+    }
   })]), _vm._v(" "), _c("button", {
     staticClass: "btn btn-primary",
     attrs: {
@@ -2588,6 +2657,10 @@ var staticRenderFns = [function () {
   }, [_vm._v("Nome")]), _vm._v(" "), _c("th", {
     staticClass: "text-center"
   }, [_vm._v("Email")]), _vm._v(" "), _c("th", {
+    staticClass: "text-center"
+  }, [_vm._v("Telefone")]), _vm._v(" "), _c("th", {
+    staticClass: "text-center"
+  }, [_vm._v("Sexo")]), _vm._v(" "), _c("th", {
     staticClass: "text-center"
   }, [_vm._v("Ações")])])]);
 }];
