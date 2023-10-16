@@ -2439,6 +2439,15 @@ var render = function render() {
       staticClass: "text-center"
     }, [_vm._v(_vm._s(cliente.sexo))]), _vm._v(" "), _c("td", {
       staticClass: "text-center"
+    }, [cliente.foto ? _c("img", {
+      attrs: {
+        src: cliente.foto,
+        alt: "Foto do Cliente",
+        width: "50",
+        height: "50"
+      }
+    }) : _vm._e()]), _vm._v(" "), _c("td", {
+      staticClass: "text-center"
     }, [_c("button", {
       staticClass: "btn btn-primary",
       on: {
@@ -2494,7 +2503,14 @@ var render = function render() {
     }
   }, [_vm._v("×")])])]), _vm._v(" "), _c("div", {
     staticClass: "modal-body"
-  }, [_c("p", [_c("strong", [_vm._v("Nome:")]), _vm._v(" " + _vm._s(_vm.clienteEditado.nome))]), _vm._v(" "), _c("p", [_c("strong", [_vm._v("Email:")]), _vm._v(" " + _vm._s(_vm.clienteEditado.email))]), _vm._v(" "), _c("p", [_c("strong", [_vm._v("Telefone:")]), _vm._v(" " + _vm._s(_vm.clienteEditado.telefone))]), _vm._v(" "), _c("p", [_c("strong", [_vm._v("Sexo:")]), _vm._v(" " + _vm._s(_vm.clienteEditado.sexo))])])])])]), _vm._v(" "), _c("div", {
+  }, [_c("p", [_c("strong", [_vm._v("Nome:")]), _vm._v(" " + _vm._s(_vm.clienteEditado.nome))]), _vm._v(" "), _c("p", [_c("strong", [_vm._v("Email:")]), _vm._v(" " + _vm._s(_vm.clienteEditado.email))]), _vm._v(" "), _c("p", [_c("strong", [_vm._v("Telefone:")]), _vm._v(" " + _vm._s(_vm.clienteEditado.telefone))]), _vm._v(" "), _c("p", [_c("strong", [_vm._v("Sexo:")]), _vm._v(" " + _vm._s(_vm.clienteEditado.sexo))]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c("img", {
+    attrs: {
+      src: _vm.clienteEditado.foto,
+      alt: "Foto do Cliente",
+      width: "100",
+      height: "100"
+    }
+  })])])])]), _vm._v(" "), _c("div", {
     staticClass: "modal",
     attrs: {
       id: "edicaoModal",
@@ -2662,7 +2678,13 @@ var staticRenderFns = [function () {
     staticClass: "text-center"
   }, [_vm._v("Sexo")]), _vm._v(" "), _c("th", {
     staticClass: "text-center"
+  }, [_vm._v("Foto")]), _vm._v(" "), _c("th", {
+    staticClass: "text-center"
   }, [_vm._v("Ações")])])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("p", [_c("strong", [_vm._v("Foto:")])]);
 }];
 render._withStripped = true;
 

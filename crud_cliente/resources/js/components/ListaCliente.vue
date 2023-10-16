@@ -8,6 +8,7 @@
           <th class="text-center">Email</th>
           <th class="text-center">Telefone</th>
           <th class="text-center">Sexo</th>
+          <th class="text-center">Foto</th>
           <th class="text-center">Ações</th>
         </tr>
       </thead>
@@ -17,6 +18,9 @@
           <td class="text-center">{{ cliente.email }}</td>
           <td class="text-center">{{ cliente.telefone  }}</td>
           <td class="text-center">{{ cliente.sexo  }}</td>
+          <td class="text-center">
+            <img v-if="cliente.foto" :src="cliente.foto" alt="Foto do Cliente" width="50" height="50">
+          </td>
           <td class="text-center">
             <button @click="editarCliente(cliente.id)" class="btn btn-primary">Editar</button>
             <button @click="excluirCliente(cliente.id)" class="btn btn-danger">Excluir</button>
@@ -41,6 +45,8 @@
             <p><strong>Email:</strong> {{ clienteEditado.email }}</p>
             <p><strong>Telefone:</strong> {{ clienteEditado.telefone  }}</p>
             <p><strong>Sexo:</strong> {{ clienteEditado.sexo }}</p>
+            <p><strong>Foto:</strong></p>
+            <img :src="clienteEditado.foto" alt="Foto do Cliente" width="100" height="100">
           </div>
         </div>
       </div>
