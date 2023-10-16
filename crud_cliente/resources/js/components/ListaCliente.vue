@@ -1,14 +1,26 @@
 <template>
-  <div>
+  <div class="container">
     <h2>Lista de Clientes</h2>
-    <ul>
-      <li v-for="cliente in clientes" :key="cliente.id">
-        {{ cliente.nome }} - {{ cliente.email }}
-        <button @click="exibirDetalhes(cliente)">Detalhes</button>
-        <button @click="editarCliente(cliente.id)">Editar</button>
-        <button @click="excluirCliente(cliente.id)">Excluir</button>
-      </li>
-    </ul>
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-center">Nome</th>
+          <th class="text-center">Email</th>
+          <th class="text-center">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="cliente in clientes" :key="cliente.id">
+          <td class="text-center">{{ cliente.nome }}</td>
+          <td class="text-center">{{ cliente.email }}</td>
+          <td class="text-center">
+            <button @click="editarCliente(cliente.id)" class="btn btn-primary">Editar</button>
+            <button @click="excluirCliente(cliente.id)" class="btn btn-danger">Excluir</button>
+            <button @click="exibirDetalhes(cliente)" class="btn btn-secondary">Detalhes</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
     <!-- Modal de Detalhes do Cliente -->
     <div class="modal" id="detalhesModal" tabindex="-1" role="dialog">
@@ -23,7 +35,6 @@
           <div class="modal-body">
             <p><strong>Nome:</strong> {{ detalhesCliente.nome }}</p>
             <p><strong>Email:</strong> {{ detalhesCliente.email }}</p>
-            <!-- Adicione mais detalhes conforme necessário -->
           </div>
         </div>
       </div>

@@ -1,15 +1,25 @@
 <template>
-  <div>
+<div class="container">
     <h2>Adicionar Novo Cliente</h2>
-    <form @submit.prevent="adicionarCliente">
-      <input v-model="novoCliente.nome" placeholder="Nome" required>
-      <input v-model="novoCliente.email" type="email" placeholder="Email" required>
-      <input v-model="novoCliente.telefone" placeholder="Telefone" required>
-      <input type="file" accept="image/*" @change="handleFileChange">
-      <input v-model="novoCliente.sexo" placeholder="Sexo" required>
-      <button type="submit">Adicionar</button>
+    <form @submit.prevent="adicionarCliente" class="mt-4">
+      <div class="form-group">
+        <input v-model="novoCliente.nome" class="form-control" placeholder="Nome" required>
+      </div>
+      <div class="form-group">
+        <input v-model="novoCliente.email" class="form-control" type="email" placeholder="Email" required>
+      </div>
+      <div class="form-group">
+        <input v-model="novoCliente.telefone" class="form-control" placeholder="Telefone" required>
+      </div>
+      <div class="form-group">
+        <input type="file" accept="image/*" @change="handleFileChange" class="form-control-file">
+      </div>
+      <div class="form-group">
+        <input v-model="novoCliente.sexo" class="form-control" placeholder="Sexo" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Adicionar</button>
     </form>
-  </div>
+</div>
 </template>
 
 <script>

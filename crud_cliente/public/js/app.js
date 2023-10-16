@@ -2216,13 +2216,18 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", [_c("h2", [_vm._v("Adicionar Novo Cliente")]), _vm._v(" "), _c("form", {
+  return _c("div", {
+    staticClass: "container"
+  }, [_c("h2", [_vm._v("Adicionar Novo Cliente")]), _vm._v(" "), _c("form", {
+    staticClass: "mt-4",
     on: {
       submit: function submit($event) {
         $event.preventDefault();
         return _vm.adicionarCliente.apply(null, arguments);
       }
     }
+  }, [_c("div", {
+    staticClass: "form-group"
   }, [_c("input", {
     directives: [{
       name: "model",
@@ -2230,6 +2235,7 @@ var render = function render() {
       value: _vm.novoCliente.nome,
       expression: "novoCliente.nome"
     }],
+    staticClass: "form-control",
     attrs: {
       placeholder: "Nome",
       required: ""
@@ -2243,13 +2249,16 @@ var render = function render() {
         _vm.$set(_vm.novoCliente, "nome", $event.target.value);
       }
     }
-  }), _vm._v(" "), _c("input", {
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
       value: _vm.novoCliente.email,
       expression: "novoCliente.email"
     }],
+    staticClass: "form-control",
     attrs: {
       type: "email",
       placeholder: "Email",
@@ -2264,13 +2273,16 @@ var render = function render() {
         _vm.$set(_vm.novoCliente, "email", $event.target.value);
       }
     }
-  }), _vm._v(" "), _c("input", {
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
       value: _vm.novoCliente.telefone,
       expression: "novoCliente.telefone"
     }],
+    staticClass: "form-control",
     attrs: {
       placeholder: "Telefone",
       required: ""
@@ -2284,7 +2296,10 @@ var render = function render() {
         _vm.$set(_vm.novoCliente, "telefone", $event.target.value);
       }
     }
-  }), _vm._v(" "), _c("input", {
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("input", {
+    staticClass: "form-control-file",
     attrs: {
       type: "file",
       accept: "image/*"
@@ -2292,13 +2307,16 @@ var render = function render() {
     on: {
       change: _vm.handleFileChange
     }
-  }), _vm._v(" "), _c("input", {
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
       value: _vm.novoCliente.sexo,
       expression: "novoCliente.sexo"
     }],
+    staticClass: "form-control",
     attrs: {
       placeholder: "Sexo",
       required: ""
@@ -2312,7 +2330,8 @@ var render = function render() {
         _vm.$set(_vm.novoCliente, "sexo", $event.target.value);
       }
     }
-  }), _vm._v(" "), _c("button", {
+  })]), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-primary",
     attrs: {
       type: "submit"
     }
@@ -2378,29 +2397,42 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("div", [_c("h2", [_vm._v("Lista de Clientes")]), _vm._v(" "), _c("ul", _vm._l(_vm.clientes, function (cliente) {
-    return _c("li", {
+  return _c("div", {
+    staticClass: "container"
+  }, [_c("h2", [_vm._v("Lista de Clientes")]), _vm._v(" "), _c("table", {
+    staticClass: "table"
+  }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.clientes, function (cliente) {
+    return _c("tr", {
       key: cliente.id
-    }, [_vm._v("\n      " + _vm._s(cliente.nome) + " - " + _vm._s(cliente.email) + "\n      "), _c("button", {
-      on: {
-        click: function click($event) {
-          return _vm.exibirDetalhes(cliente);
-        }
-      }
-    }, [_vm._v("Detalhes")]), _vm._v(" "), _c("button", {
+    }, [_c("td", {
+      staticClass: "text-center"
+    }, [_vm._v(_vm._s(cliente.nome))]), _vm._v(" "), _c("td", {
+      staticClass: "text-center"
+    }, [_vm._v(_vm._s(cliente.email))]), _vm._v(" "), _c("td", {
+      staticClass: "text-center"
+    }, [_c("button", {
+      staticClass: "btn btn-primary",
       on: {
         click: function click($event) {
           return _vm.editarCliente(cliente.id);
         }
       }
     }, [_vm._v("Editar")]), _vm._v(" "), _c("button", {
+      staticClass: "btn btn-danger",
       on: {
         click: function click($event) {
           return _vm.excluirCliente(cliente.id);
         }
       }
-    }, [_vm._v("Excluir")])]);
-  }), 0), _vm._v(" "), _c("div", {
+    }, [_vm._v("Excluir")]), _vm._v(" "), _c("button", {
+      staticClass: "btn btn-secondary",
+      on: {
+        click: function click($event) {
+          return _vm.exibirDetalhes(cliente);
+        }
+      }
+    }, [_vm._v("Detalhes")])])]);
+  }), 0)]), _vm._v(" "), _c("div", {
     staticClass: "modal",
     attrs: {
       id: "detalhesModal",
@@ -2435,7 +2467,17 @@ var render = function render() {
     staticClass: "modal-body"
   }, [_c("p", [_c("strong", [_vm._v("Nome:")]), _vm._v(" " + _vm._s(_vm.detalhesCliente.nome))]), _vm._v(" "), _c("p", [_c("strong", [_vm._v("Email:")]), _vm._v(" " + _vm._s(_vm.detalhesCliente.email))])])])])])]);
 };
-var staticRenderFns = [];
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("thead", [_c("tr", [_c("th", {
+    staticClass: "text-center"
+  }, [_vm._v("Nome")]), _vm._v(" "), _c("th", {
+    staticClass: "text-center"
+  }, [_vm._v("Email")]), _vm._v(" "), _c("th", {
+    staticClass: "text-center"
+  }, [_vm._v("Ações")])])]);
+}];
 render._withStripped = true;
 
 
