@@ -2152,7 +2152,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       clientes: [],
-      detalhesCliente: {}
+      detalhesCliente: {},
+      clienteEditado: {}
     };
   },
   methods: {
@@ -2161,20 +2162,27 @@ __webpack_require__.r(__webpack_exports__);
       this.abrirDetalhesModal();
     },
     editarCliente: function editarCliente(clienteId) {
-      // Redirecionar para a página de edição do cliente
-      this.$router.push({
-        name: 'editar-cliente',
-        params: {
-          id: clienteId
-        }
+      var _this = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/clientes/".concat(clienteId)).then(function (response) {
+        _this.clienteEditado = response.data;
+        _this.abrirEdicaoModal();
+      })["catch"](function (error) {
+        console.error(error);
+      });
+    },
+    atualizarCliente: function atualizarCliente() {
+      var _this2 = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().put("/api/clientes/".concat(this.clienteEditado.id), this.clienteEditado).then(function (_response) {
+        _this2.fecharEdicaoModal();
+      })["catch"](function (error) {
+        console.error(error);
       });
     },
     excluirCliente: function excluirCliente(clienteId) {
-      var _this = this;
+      var _this3 = this;
       if (confirm('Tem certeza de que deseja excluir este cliente?')) {
-        // Enviar uma solicitação para excluir o cliente
         axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]('/api/clientes/' + clienteId).then(function (response) {
-          _this.clientes = _this.clientes.filter(function (cliente) {
+          _this3.clientes = _this3.clientes.filter(function (cliente) {
             return cliente.id !== clienteId;
           });
         })["catch"](function (error) {
@@ -2187,12 +2195,18 @@ __webpack_require__.r(__webpack_exports__);
     },
     fecharDetalhesModal: function fecharDetalhesModal() {
       $('#detalhesModal').modal('hide');
+    },
+    abrirEdicaoModal: function abrirEdicaoModal() {
+      $('#edicaoModal').modal('show');
+    },
+    fecharEdicaoModal: function fecharEdicaoModal() {
+      $('#edicaoModal').modal('hide');
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this4 = this;
     axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/clientes').then(function (response) {
-      _this2.clientes = response.data;
+      _this4.clientes = response.data;
     })["catch"](function (error) {
       console.error(error);
     });
@@ -2465,7 +2479,106 @@ var render = function render() {
     }
   }, [_vm._v("×")])])]), _vm._v(" "), _c("div", {
     staticClass: "modal-body"
-  }, [_c("p", [_c("strong", [_vm._v("Nome:")]), _vm._v(" " + _vm._s(_vm.detalhesCliente.nome))]), _vm._v(" "), _c("p", [_c("strong", [_vm._v("Email:")]), _vm._v(" " + _vm._s(_vm.detalhesCliente.email))])])])])])]);
+  }, [_c("p", [_c("strong", [_vm._v("Nome:")]), _vm._v(" " + _vm._s(_vm.detalhesCliente.nome))]), _vm._v(" "), _c("p", [_c("strong", [_vm._v("Email:")]), _vm._v(" " + _vm._s(_vm.detalhesCliente.email))])])])])]), _vm._v(" "), _c("div", {
+    staticClass: "modal",
+    attrs: {
+      id: "edicaoModal",
+      tabindex: "-1",
+      role: "dialog"
+    }
+  }, [_c("div", {
+    staticClass: "modal-dialog",
+    attrs: {
+      role: "document"
+    }
+  }, [_c("div", {
+    staticClass: "modal-content"
+  }, [_c("div", {
+    staticClass: "modal-header"
+  }, [_c("h5", {
+    staticClass: "modal-title"
+  }, [_vm._v("Editar Cliente")]), _vm._v(" "), _c("button", {
+    staticClass: "close",
+    attrs: {
+      type: "button",
+      "data-dismiss": "modal"
+    },
+    on: {
+      click: _vm.fecharEdicaoModal
+    }
+  }, [_c("span", {
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }, [_vm._v("×")])])]), _vm._v(" "), _c("div", {
+    staticClass: "modal-body"
+  }, [_c("form", {
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.atualizarCliente.apply(null, arguments);
+      }
+    }
+  }, [_c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "nome"
+    }
+  }, [_vm._v("Nome:")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.clienteEditado.nome,
+      expression: "clienteEditado.nome"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      id: "nome"
+    },
+    domProps: {
+      value: _vm.clienteEditado.nome
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.clienteEditado, "nome", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "email"
+    }
+  }, [_vm._v("Email:")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.clienteEditado.email,
+      expression: "clienteEditado.email"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      id: "email"
+    },
+    domProps: {
+      value: _vm.clienteEditado.email
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.$set(_vm.clienteEditado, "email", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-primary",
+    attrs: {
+      type: "submit"
+    }
+  }, [_vm._v("Salvar Alterações")])])])])])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,

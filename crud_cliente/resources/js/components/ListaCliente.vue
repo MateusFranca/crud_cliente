@@ -39,6 +39,34 @@
         </div>
       </div>
     </div>
+
+    
+      <!-- Modal de Edição do Cliente -->
+      <div class="modal" id="edicaoModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Editar Cliente</h5>
+              <button type="button" class="close" data-dismiss="modal" @click="fecharEdicaoModal">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form @submit.prevent="atualizarCliente">
+                <div class="form-group">
+                  <label for="nome">Nome:</label>
+                  <input type="text" class="form-control" id="nome" v-model="clienteEditado.nome">
+                </div>
+                <div class="form-group">
+                  <label for="email">Email:</label>
+                  <input type="text" class="form-control" id="email" v-model="clienteEditado.email">
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
 </template>
 
@@ -50,6 +78,7 @@ export default {
     return {
       clientes: [],
       detalhesCliente: {},
+      clienteEditado: {},
     };
   },
   methods: {
@@ -58,12 +87,27 @@ export default {
       this.abrirDetalhesModal();
     },
     editarCliente(clienteId) {
-      // Redirecionar para a página de edição do cliente
-      this.$router.push({ name: 'editar-cliente', params: { id: clienteId } });
+    axios.get(`/api/clientes/${clienteId}`)
+      .then(response => {
+        this.clienteEditado = response.data;
+        this.abrirEdicaoModal();
+      })
+      .catch(error => {
+        console.error(error);
+      });
     },
+    atualizarCliente() {
+    axios.put(`/api/clientes/${this.clienteEditado.id}`, this.clienteEditado)
+      .then(_response => {
+        this.fecharEdicaoModal();
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    },
+
     excluirCliente(clienteId) {
       if (confirm('Tem certeza de que deseja excluir este cliente?')) {
-        // Enviar uma solicitação para excluir o cliente
         axios.delete('/api/clientes/' + clienteId)
           .then(response => {
             this.clientes = this.clientes.filter(cliente => cliente.id !== clienteId);
@@ -79,7 +123,13 @@ export default {
     fecharDetalhesModal() {
       $('#detalhesModal').modal('hide');
     },
-  },
+      abrirEdicaoModal() {
+      $('#edicaoModal').modal('show');
+      },
+    fecharEdicaoModal() {
+      $('#edicaoModal').modal('hide');
+      },
+    },
   mounted() {
     axios.get('/api/clientes')
       .then(response => {
