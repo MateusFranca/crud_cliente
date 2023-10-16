@@ -33,7 +33,16 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                    @auth <!--auth mostra esse bloco só se o usuario tiver feito a autenticação-->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Cliente</a>
+                            <div class="dropdown-menu">
+                                <!--<div class="dropdown-divider"></div>-->
+                                <a class="dropdown-item" href="{{ route('listarCliente') }}">Consultar Clientes</a>
+                                <a class="dropdown-item" href="{{ route('adicionarCliente') }}">Adicionar Clientes</a>
+                            </div>
+                        </li>
+                    @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->

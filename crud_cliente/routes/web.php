@@ -23,8 +23,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/adicionar-cliente', function () {
     return view('adicionarCliente');
-});
+})->name('adicionarCliente');
 
 Route::get('/listar-cliente', function () {
     return view('listaCliente');
-});
+})->name('listarCliente');
