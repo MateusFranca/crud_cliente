@@ -81,6 +81,10 @@
                   <label for="sexo">Sexo:</label>
                   <input type="text" class="form-control" id="sexo" v-model="clienteEditado.sexo">
               </div>
+              <div class="form-group">
+                <label for="foto">Foto:</label>
+                <input type="file" class="form-control" id="foto">
+              </div>
                 <button type="submit" class="btn btn-primary">Salvar Alterações</button>
               </form>
             </div>
