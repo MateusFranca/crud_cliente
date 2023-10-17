@@ -40,5 +40,17 @@
 </template>
 
 <script>
+export default {
+  methods: {
+    adicionarVenda() {
+      // Simule a adição da venda (substitua esta parte pelo código real de adicionar a venda)
+      // ...
 
+      // Exiba uma mensagem de alerta
+      window.alert("Venda adicionada com sucesso!");
+
+      // Limpe os campos de entrada ou faça qualquer outra ação necessária
+    }
+  }
+}
 </script>

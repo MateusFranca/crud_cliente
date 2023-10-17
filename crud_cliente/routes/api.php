@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\VendaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,11 +38,10 @@ Route::delete('/clientes/{cliente}', 'ClienteController@destroy');
 
 
 
-// Rota Controller Venda
+// Rotas para ações do controlador
+Route::post('/vendas', [VendaController::class, 'store']);
+Route::get('/vendas/{id}', [VendaController::class, 'show']);
+Route::put('/vendas/{id}', [VendaController::class, 'update']);
+Route::delete('/vendas/{id}', [VendaController::class, 'destroy']);
 
-Route::resource('vendas', VendaController::class);
-
-Route::get('/vendas', 'VendaController@index');
-
-Route::post('/vendas', 'VendaController@store');
 
