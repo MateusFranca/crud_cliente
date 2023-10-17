@@ -34,6 +34,9 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                     @auth <!--auth mostra esse bloco só se o usuario tiver feito a autenticação-->
+                        <li class="nav-item">    
+                            <a class="nav-link" href="{{ route('venda') }}">Venda</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Cliente</a>
                             <div class="dropdown-menu">

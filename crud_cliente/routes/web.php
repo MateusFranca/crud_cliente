@@ -28,3 +28,7 @@ Route::get('/adicionar-cliente', function () {
 Route::get('/listar-cliente', function () {
     return view('listaCliente');
 })->name('listarCliente');
+
+Route::get('/venda', function () {
+    return view('venda');
+})->name('venda');

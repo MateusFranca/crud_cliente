@@ -138,7 +138,7 @@ export default {
     excluirCliente(clienteId) {
       if (confirm('Tem certeza de que deseja excluir este cliente?')) {
         axios.delete('/api/clientes/' + clienteId)
-          .then(response => {
+          .then(_response => {
             this.clientes = this.clientes.filter(cliente => cliente.id !== clienteId);
           })
           .catch(error => {

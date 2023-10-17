@@ -34,3 +34,14 @@ Route::put('/clientes/{cliente}', [ClienteController::class, 'update']);
 // Excluir um cliente
 Route::delete('/clientes/{cliente}', 'ClienteController@destroy');
 
+
+
+
+// Rota Controller Venda
+
+Route::resource('vendas', VendaController::class);
+
+Route::get('/vendas', 'VendaController@index');
+
+Route::post('/vendas', 'VendaController@store');
+
