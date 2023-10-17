@@ -17,9 +17,9 @@
       <div class="form-group">
         <input v-model="novoCliente.sexo" class="form-control" placeholder="Sexo" required>
       </div>
-      <button type="submit" class="btn btn-primary">Adicionar</button>
+            <button type="submit" class="btn btn-primary">Adicionar</button>
     </form>
-</div>
+  </div>
 </template>
 
 <script>
@@ -52,7 +52,7 @@ export default {
           'Content-Type': 'multipart/form-data',
         },
       })
-      .then(response => {
+      .then(_response => {
         // Limpe os campos após a adição bem-sucedida
         this.novoCliente = {
           nome: '',
@@ -61,9 +61,11 @@ export default {
           foto: null,
           sexo: '',
         };
+        window.alert('Cliente salvo com sucesso!');
       })
       .catch(error => {
         console.error(error);
+        window.alert('Erro ao salvar o cliente. Verifique os campos e tente novamente.');
       });
     },
     handleFileChange(event) {

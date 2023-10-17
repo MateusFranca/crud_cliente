@@ -2094,7 +2094,7 @@ __webpack_require__.r(__webpack_exports__);
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-      }).then(function (response) {
+      }).then(function (_response) {
         // Limpe os campos após a adição bem-sucedida
         _this.novoCliente = {
           nome: '',
@@ -2103,8 +2103,10 @@ __webpack_require__.r(__webpack_exports__);
           foto: null,
           sexo: ''
         };
+        window.alert('Cliente salvo com sucesso!');
       })["catch"](function (error) {
         console.error(error);
+        window.alert('Erro ao salvar o cliente. Verifique os campos e tente novamente.');
       });
     },
     handleFileChange: function handleFileChange(event) {
@@ -2185,6 +2187,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       var _this2 = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default().put("/api/clientes/".concat(this.clienteEditado.id), this.clienteEditado).then(function (_response) {
         _this2.fecharEdicaoModal();
+        window.alert('Alterações salvas com sucesso!');
       })["catch"](function (error) {
         console.error(error);
       });

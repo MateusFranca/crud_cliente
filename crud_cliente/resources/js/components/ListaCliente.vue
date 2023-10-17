@@ -126,13 +126,14 @@ export default {
       });
     },
     atualizarCliente() {
-    axios.put(`/api/clientes/${this.clienteEditado.id}`, this.clienteEditado)
-      .then(_response => {
-        this.fecharEdicaoModal();
-      })
-      .catch(error => {
-        console.error(error);
-      });
+      axios.put(`/api/clientes/${this.clienteEditado.id}`, this.clienteEditado)
+        .then(_response => {
+          this.fecharEdicaoModal();
+          window.alert('Alterações salvas com sucesso!');
+        })
+        .catch(error => {
+          console.error(error);
+        });
     },
 
     excluirCliente(clienteId) {
