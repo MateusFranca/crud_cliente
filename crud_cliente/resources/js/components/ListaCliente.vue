@@ -1,34 +1,36 @@
 <template>
-  <div class="container">
-    <h2>Lista de Clientes</h2>
-    <table class="table">
-      <thead>
-        <tr>
-          <th class="text-center">Nome</th>
-          <th class="text-center">Email</th>
-          <th class="text-center">Telefone</th>
-          <th class="text-center">Sexo</th>
-          <th class="text-center">Foto</th>
-          <th class="text-center">Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="cliente in clientes" :key="cliente.id">
-          <td class="text-center">{{ cliente.nome }}</td>
-          <td class="text-center">{{ cliente.email }}</td>
-          <td class="text-center">{{ cliente.telefone  }}</td>
-          <td class="text-center">{{ cliente.sexo  }}</td>
-          <td class="text-center">
-            <img v-if="cliente.foto" :src="cliente.foto" alt="Foto do Cliente" width="50" height="50">
-          </td>
-          <td class="text-center">
-            <button @click="editarCliente(cliente.id)" class="btn btn-primary">Editar</button>
-            <button @click="excluirCliente(cliente.id)" class="btn btn-danger">Excluir</button>
-            <button @click="exibirDetalhes(cliente)" class="btn btn-secondary">Detalhes</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="container mt-5">
+    <h2 class="mb-4">Lista de Clientes</h2>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th class="text-center">Nome</th>
+            <th class="text-center">Email</th>
+            <th class="text-center">Telefone</th>
+            <th class="text-center">Sexo</th>
+            <th class="text-center">Foto</th>
+            <th class="text-center">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="cliente in clientes" :key="cliente.id" class="hover-row">
+            <td class="text-center">{{ cliente.nome }}</td>
+            <td class="text-center">{{ cliente.email }}</td>
+            <td class="text-center">{{ cliente.telefone  }}</td>
+            <td class="text-center">{{ cliente.sexo  }}</td>
+            <td class="text-center">
+              <img v-if="cliente.foto" :src="cliente.foto" alt="Foto do Cliente" width="50" height="50">
+            </td>
+            <td class="text-center">
+              <button @click="editarCliente(cliente.id)" class="btn btn-primary">Editar</button>
+              <button @click="excluirCliente(cliente.id)" class="btn btn-danger">Excluir</button>
+              <button @click="exibirDetalhes(cliente)" class="btn btn-secondary">Detalhes</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <!-- Modal de Detalhes do Cliente -->
     <div class="modal" id="detalhesModal" tabindex="-1" role="dialog">
@@ -52,7 +54,6 @@
       </div>
     </div>
 
-    
       <!-- Modal de Edição do Cliente -->
       <div class="modal" id="edicaoModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -83,7 +84,7 @@
               </div>
               <div class="form-group">
                 <label for="foto">Foto:</label>
-                <input type="file" class="form-control" id="foto">
+                <input type="file" class="form-control" id="foto" ref="foto">
               </div>
                 <button type="submit" class="btn btn-primary">Salvar Alterações</button>
               </form>
@@ -126,15 +127,26 @@ export default {
       });
     },
     atualizarCliente() {
-      axios.put(`/api/clientes/${this.clienteEditado.id}`, this.clienteEditado)
-        .then(_response => {
-          this.fecharEdicaoModal();
-          window.alert('Alterações salvas com sucesso!');
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    },
+      const formData = new FormData();
+      formData.append('nome', this.clienteEditado.nome);
+      formData.append('email', this.clienteEditado.email);
+      formData.append('telefone', this.clienteEditado.telefone);
+      formData.append('sexo', this.clienteEditado.sexo);
+      formData.append('foto', this.$refs.foto.files[0]);
+
+      axios.put(`/api/clientes/${this.clienteEditado.id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+    })
+      .then(_response => {
+        this.fecharEdicaoModal();
+        window.alert('Alterações salvas com sucesso!');
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
 
     excluirCliente(clienteId) {
       if (confirm('Tem certeza de que deseja excluir este cliente?')) {
@@ -160,14 +172,20 @@ export default {
       $('#edicaoModal').modal('hide');
       },
     },
-  mounted() {
-    axios.get('/api/clientes')
-      .then(response => {
-        this.clientes = response.data;
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  },
+    mounted() {
+      axios.get('/api/clientes')
+        .then(response => {
+          this.clientes = response.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
 };
 </script>
+
+<style scoped>
+  .hover-row:hover {
+    background-color: #cfcfcf;
+  }
+</style>

@@ -9,5 +9,11 @@ class Cliente extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nome', 'email', 'telefone', 'foto', 'sexo', 'foto'];
+    protected $fillable = ['nome', 'email', 'telefone', 'foto', 'sexo'];
+
+    /* Retornar a URL da imagem */
+    public function getUrlImagemAttribute()
+    {
+        return asset("storage/{$this->foto}");
+    }
 }

@@ -25,25 +25,44 @@ class ClienteController extends Controller
             'email' => 'required',
             'telefone' => 'required',
             'sexo' => 'required',
-            'imagem' => 'image',
+            'foto' => 'image',
         ]);
 
-        $cliente = Cliente::create($request->all());
+        $fotoURL = $request->file('foto')->store('public/fotos');
+
+        $fotoURL = str_replace('public/', 'storage/', $fotoURL);
+
+        $cliente = Cliente::create([
+            'nome' => $request->nome,
+            'email' => $request->email,
+            'telefone' => $request->telefone,
+            'sexo' => $request->sexo,
+            'foto' => $fotoURL,
+        ]);
 
         return response()->json($cliente, 201);
     }
 
     // Atualiza um cliente existente
     public function update(Request $request, Cliente $cliente) {
-        $request->validate([
+        $rules = [
             'nome' => 'required',
             'email' => 'required',
             'telefone' => 'required',
             'sexo' => 'required',
-        ]);
-
-        $cliente->update($request->all());
-
+        ];
+    
+        if ($request->hasFile('foto')) {
+            $rules['foto'] = 'image';
+            $fotoURL = $request->file('foto')->store('public/fotos');
+            $fotoURL = str_replace('public/', 'storage/', $fotoURL);
+            $cliente->update(['foto' => $fotoURL]);
+        }
+    
+        $request->validate($rules);
+    
+        $cliente->update($request->except('foto'));
+    
         return response()->json($cliente);
     }
 

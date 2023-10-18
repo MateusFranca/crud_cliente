@@ -35,13 +35,11 @@ Route::put('/clientes/{cliente}', [ClienteController::class, 'update']);
 // Excluir um cliente
 Route::delete('/clientes/{cliente}', 'ClienteController@destroy');
 
-
-
-
 // Rotas para ações do controlador
-Route::post('/vendas', [VendaController::class, 'store']);
-Route::get('/vendas/{id}', [VendaController::class, 'show']);
-Route::put('/vendas/{id}', [VendaController::class, 'update']);
-Route::delete('/vendas/{id}', [VendaController::class, 'destroy']);
+Route::get('/vendas', 'VendaController@index');
+Route::post('/vendas', 'VendaController@store');
+Route::put('/vendas/{venda}', 'VendaController@update');
+Route::delete('/vendas/{venda}', 'VendaController@destroy');
+
 
 

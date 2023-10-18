@@ -7,26 +7,27 @@ use App\Models\Venda;
 
 class VendaController extends Controller
 {
+    public function index()
+    {
+        $vendas = Venda::all();
+
+        return response()->json($vendas, 200);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
+            'valor' => 'required',
+            'nome' => 'required',
+            'descrição' => 'required',
             'cliente_id' => 'required',
-            'data_da_venda' => 'required',
-            'valor_da_venda' => 'required'
         ]);
 
-        $venda = new Venda([
-            'cliente_id' => $request->cliente_id,
-            'data_da_venda' => $request->data_da_venda,
-            'valor_da_venda' => $request->valor_da_venda,
-        ]);
-
-        $venda->save();
+        $venda = Venda::create($request->all());
 
         return response()->json($venda, 201);
     }
     
-    // Função para mostrar uma venda específica
     public function show($id)
     {
         $venda = Venda::with('cliente')->find($id);
@@ -38,7 +39,6 @@ class VendaController extends Controller
         return response()->json($venda, 200);
     }
 
-    // Função para atualizar uma venda existente
     public function update(Request $request, $id)
     {
         $venda = Venda::find($id);
@@ -62,7 +62,6 @@ class VendaController extends Controller
         return response()->json($venda, 200);
     }
 
-    // Função para excluir uma venda
     public function destroy($id)
     {
         $venda = Venda::find($id);
