@@ -2083,7 +2083,6 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     adicionarCliente: function adicionarCliente() {
       var _this = this;
-      // Chamada para adicionar o novo cliente
       var formData = new FormData();
       formData.append('nome', this.novoCliente.nome);
       formData.append('email', this.novoCliente.email);
@@ -2095,7 +2094,6 @@ __webpack_require__.r(__webpack_exports__);
           'Content-Type': 'multipart/form-data'
         }
       }).then(function (_response) {
-        // Limpe os campos após a adição bem-sucedida
         _this.novoCliente = {
           nome: '',
           email: '',
@@ -2165,7 +2163,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         nome: "",
         email: "",
         telefone: "",
-        sexo: ""
+        sexo: "",
+        foto: ""
       }
     };
   },
@@ -2190,7 +2189,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       formData.append('email', this.clienteEditado.email);
       formData.append('telefone', this.clienteEditado.telefone);
       formData.append('sexo', this.clienteEditado.sexo);
-      formData.append('foto', this.$refs.foto.files[0]);
+      formData.append('foto', this.clienteEditado.foto);
       axios__WEBPACK_IMPORTED_MODULE_0___default().put("/api/clientes/".concat(this.clienteEditado.id), formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -2199,8 +2198,16 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         _this2.fecharEdicaoModal();
         window.alert('Alterações salvas com sucesso!');
       })["catch"](function (error) {
-        console.error(error);
+        if (error.response && error.response.status === 422) {
+          _this2.errors = error.response.data.errors;
+        } else {
+          console.error(error);
+        }
       });
+    },
+    // Método para carregar a foto do cliente a ser atualizado
+    carregarFoto: function carregarFoto(event) {
+      this.clienteEditado.foto = event.target.files[0];
     },
     excluirCliente: function excluirCliente(clienteId) {
       var _this3 = this;
@@ -2250,7 +2257,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-var _methods;
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -2269,17 +2275,15 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       vendas: [],
       clientes: [],
       vendaEmEdição: null,
-      // Para rastrear a venda em edição
       atualizacaoComSucesso: false
     };
   },
-  methods: (_methods = {
+  methods: {
     adicionarVenda: function adicionarVenda() {
       var _this = this;
-      // Chamada para adicionar uma nova venda
       axios.post('/api/vendas', this.novaVenda).then(function (response) {
-        _this.vendas.push(response.data); // Adicione a nova venda à lista
-        _this.novaVenda = {}; // Limpe os campos
+        _this.vendas.push(response.data);
+        _this.novaVenda = {}; // Limpar os campos após o sucesso
       })["catch"](function (error) {
         console.error(error);
       });
@@ -2294,70 +2298,44 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     },
     salvarEdição: function salvarEdição() {
       var _this2 = this;
-      // Chamada HTTP PUT para salvar as alterações
       axios.put("/api/vendas/".concat(this.vendaEmEdição.id), this.novaVenda).then(function (response) {
         var index = _this2.vendas.indexOf(_this2.vendaEmEdição);
         _this2.vendas[index] = response.data;
         _this2.novaVenda = {};
         _this2.vendaEmEdição = null;
-
-        // Fechar o modal de edição
         $('#editarModal').modal('hide');
-
-        // Exibir alerta de sucesso
         alert('Venda editada com sucesso!');
       })["catch"](function (error) {
         console.error(error);
       });
+    },
+    excluirVenda: function excluirVenda(vendaId) {
+      var _this3 = this;
+      axios["delete"]("/api/vendas/".concat(vendaId)).then(function () {
+        _this3.vendas = _this3.vendas.filter(function (venda) {
+          return venda.id !== vendaId;
+        });
+        alert('Venda excluída com sucesso!');
+      })["catch"](function (error) {
+        console.error(error);
+      });
     }
-  }, _defineProperty(_methods, "salvarEdi\xE7\xE3o", function salvarEdição() {
-    var _this3 = this;
-    // Chamada HTTP PUT para salvar as alterações
-    axios.put("/api/vendas/".concat(this.vendaEmEdição), this.novaVenda).then(function (response) {
-      var index = _this3.vendas.findIndex(function (venda) {
-        return venda.id === _this3.vendaEmEdição;
-      });
-      _this3.vendas[index] = response.data; // Atualize a venda na matriz de vendas
-      _this3.novaVenda = {}; // Limpe os campos
-      _this3.vendaEmEdição = null; // Redefina a venda em edição
-      $('#editarModal').modal('hide'); // Feche o modal
-
-      // Defina atualizacaoComSucesso como true
-      _this3.atualizacaoComSucesso = true;
-    })["catch"](function (error) {
-      console.error(error);
-    });
-  }), _defineProperty(_methods, "excluirVenda", function excluirVenda(vendaId) {
-    var _this4 = this;
-    // Chamada HTTP DELETE para excluir a venda
-    axios["delete"]("/api/vendas/".concat(vendaId)).then(function () {
-      _this4.vendas = _this4.vendas.filter(function (venda) {
-        return venda.id !== vendaId;
-      });
-
-      // Exibir alerta de sucesso
-      alert('Venda excluída com sucesso!');
-    })["catch"](function (error) {
-      console.error(error);
-    });
-  }), _methods),
+  },
   selecionarCliente: function selecionarCliente(clienteId) {
     this.novaVenda.cliente_id = clienteId;
   },
   created: function created() {
-    var _this5 = this;
-    // Chamada para listar todos os clientes
+    var _this4 = this;
     axios.get('/api/clientes').then(function (response) {
-      _this5.clientes = response.data; // Atualize a lista de clientes
+      _this4.clientes = response.data;
     })["catch"](function (error) {
       console.error(error);
     });
   },
   mounted: function mounted() {
-    var _this6 = this;
-    // Chamada para listar todas as vendas
+    var _this5 = this;
     axios.get('/api/vendas').then(function (response) {
-      _this6.vendas = response.data; // Atualize a lista de vendas
+      _this5.vendas = response.data;
     })["catch"](function (error) {
       console.error(error);
     });
@@ -2809,20 +2787,7 @@ var render = function render() {
         _vm.$set(_vm.clienteEditado, "sexo", $event.target.value);
       }
     }
-  })]), _vm._v(" "), _c("div", {
-    staticClass: "form-group"
-  }, [_c("label", {
-    attrs: {
-      "for": "foto"
-    }
-  }, [_vm._v("Foto:")]), _vm._v(" "), _c("input", {
-    ref: "foto",
-    staticClass: "form-control",
-    attrs: {
-      type: "file",
-      id: "foto"
-    }
-  })]), _vm._v(" "), _c("button", {
+  })]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c("button", {
     staticClass: "btn btn-primary",
     attrs: {
       type: "submit"
@@ -2849,6 +2814,22 @@ var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c("p", [_c("strong", [_vm._v("Foto:")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "foto"
+    }
+  }, [_vm._v("Foto:")]), _vm._v(" "), _c("input", {
+    staticClass: "form-control",
+    attrs: {
+      type: "file",
+      id: "foto"
+    }
+  })]);
 }];
 render._withStripped = true;
 
@@ -2918,7 +2899,7 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      placeholder: "Nome",
+      placeholder: "Nome do produto",
       required: ""
     },
     domProps: {
@@ -3074,7 +3055,7 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      placeholder: "Nome",
+      placeholder: "Nome do produto",
       required: ""
     },
     domProps: {
@@ -7673,7 +7654,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.hover-row[data-v-3cf97162]:hover {\r\n  background-color: #cfcfcf;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.hover-row[data-v-3cf97162]:hover {\n  background-color: #cfcfcf;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -7697,7 +7678,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.hover-row[data-v-30c486ea]:hover {\r\n  background-color: #cfcfcf;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.hover-row[data-v-30c486ea]:hover {\n  background-color: #cfcfcf;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

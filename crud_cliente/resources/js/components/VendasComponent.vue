@@ -7,7 +7,7 @@
           <input v-model="novaVenda.valor" class="form-control" placeholder="Valor" required>
         </div>
         <div class="col-md-3 mb-3">
-          <input v-model="novaVenda.nome" class="form-control" placeholder="Nome" required>
+          <input v-model="novaVenda.nome" class="form-control" placeholder="Nome do produto" required>
         </div>
         <div class="col-md-3 mb-3">
           <input v-model="novaVenda.descrição" class="form-control" placeholder="Descrição" required>
@@ -65,7 +65,7 @@
                 <input v-model="novaVenda.valor" class="form-control" placeholder="Valor" required>
               </div>
               <div class="form-group">
-                <input v-model="novaVenda.nome" class="form-control" placeholder="Nome" required>
+                <input v-model="novaVenda.nome" class="form-control" placeholder="Nome do produto" required>
               </div>
               <div class="form-group">
                 <input v-model="novaVenda.descrição" class="form-control" placeholder="Descrição" required>
@@ -106,15 +106,15 @@ export default {
   },
   methods: {
     adicionarVenda() {
-      axios.post('/api/vendas', this.novaVenda)
-        .then(response => {
-          this.vendas.push(response.data);
-          this.novaVenda = {};
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    },
+  axios.post('/api/vendas', this.novaVenda)
+    .then(response => {
+      this.vendas.push(response.data);
+      this.novaVenda = {}; // Limpar os campos após o sucesso
+    })
+    .catch(error => {
+      console.error(error);
+    });
+},
     editarVenda(vendaId) {
   this.vendaEmEdição = vendaId;
   const vendaSelecionada = this.vendas.find(venda => venda.id === vendaId);
@@ -137,22 +137,6 @@ export default {
           console.error(error);
         });
     },
-    salvarEdição() {
-    axios.put(`/api/vendas/${this.vendaEmEdição}`, this.novaVenda)
-    .then(response => {
-      const index = this.vendas.findIndex(venda => venda.id === this.vendaEmEdição);
-      this.vendas[index] = response.data;
-      this.novaVenda = {};
-      this.vendaEmEdição = null;
-      $('#editarModal').modal('hide');
-
-      this.atualizacaoComSucesso = true;
-    })
-    .catch(error => {
-      console.error(error);
-    });
-},
-
     excluirVenda(vendaId) {
   axios.delete(`/api/vendas/${vendaId}`)
     .then(() => {
