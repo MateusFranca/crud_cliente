@@ -65,7 +65,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form @submit.prevent="atualizarCliente">
+              <form @submit.prevent="atualizarCliente" enctype="multipart/form-data">
                 <div class="form-group">
                   <label for="nome">Nome:</label>
                   <input type="text" class="form-control" id="nome" v-model="clienteEditado.nome">
@@ -84,7 +84,7 @@
               </div>
               <div class="form-group">
                 <label for="foto">Foto:</label>
-                <input type="file" class="form-control" id="foto">
+                <input type="file" class="form-control" id="foto" v-on:change="carregarFoto">
               </div>
                 <button type="submit" class="btn btn-primary">Salvar Alterações</button>
               </form>
@@ -129,31 +129,34 @@ export default {
     },
     atualizarCliente() {
       const formData = new FormData();
+      formData.append('_method', 'PUT');
       formData.append('nome', this.clienteEditado.nome);
       formData.append('email', this.clienteEditado.email);
       formData.append('telefone', this.clienteEditado.telefone);
       formData.append('sexo', this.clienteEditado.sexo);
-      formData.append('foto', this.clienteEditado.foto);
+    
+      if (this.clienteEditado.foto instanceof File) {
+        formData.append('foto', this.clienteEditado.foto);
+      }
 
-        axios.put(`/api/clientes/${this.clienteEditado.id}`, formData, {
+      axios.post(`/api/clientes/${this.clienteEditado.id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
-      }
-    })
-    .then(_response => {
+        }
+      })
+      .then(_response => {
         this.fecharEdicaoModal();
         window.alert('Alterações salvas com sucesso!');
-    })
-    .catch(error => {
+      })
+      .catch(error => {
         if (error.response && error.response.status === 422) {
-            this.errors = error.response.data.errors;
+          this.errors = error.response.data.errors;
         } else {
-            console.error(error);
+          console.error(error);
         }
       });
-    },
+  },
 
-    // Método para carregar a foto do cliente a ser atualizado
     carregarFoto(event) {
       this.clienteEditado.foto = event.target.files[0];
     },
@@ -183,13 +186,13 @@ export default {
       },
     },
     mounted() {
-      axios.get('/api/clientes')
-        .then(response => {
-          this.clientes = response.data;
-        })
-        .catch(error => {
-          console.error(error);
-        });
+    axios.get('/api/clientes')
+    .then(response => {
+      this.clientes = response.data;
+    })
+    .catch(error => {
+      console.error(error);
+      });
     },
 };
 </script>

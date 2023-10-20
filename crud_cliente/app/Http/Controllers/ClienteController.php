@@ -52,16 +52,21 @@ class ClienteController extends Controller
             'sexo' => 'required',
         ];
     
-        if ($request->hasFile('foto')) {
-            $rules['foto'] = 'image';
-            $fotoURL = $request->file('foto')->store('public/fotos');
-            $fotoURL = str_replace('public/', 'storage/', $fotoURL);
-            $cliente->update(['foto' => $fotoURL]);
-        }
-    
         $request->validate($rules);
     
-        $cliente->update($request->except('foto'));
+        if ($request->hasFile('foto')) {
+            $request->validate(['foto' => 'image']);
+            $fotoURL = $request->file('foto')->store('public/fotos');
+            $fotoURL = str_replace('public/', 'storage/', $fotoURL);
+            $cliente->foto = $fotoURL;
+        }
+    
+        $cliente->nome = $request->input('nome');
+        $cliente->email = $request->input('email');
+        $cliente->telefone = $request->input('telefone');
+        $cliente->sexo = $request->input('sexo');
+    
+        $cliente->save();
     
         return response()->json($cliente);
     }
