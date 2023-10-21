@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-md-3 mb-3">
                     <input
-                        v-model="novaVenda.descrição"
+                        v-model="novaVenda.descricao"
                         class="form-control"
                         placeholder="Descrição"
                         required
@@ -66,7 +66,7 @@
                     >
                         <td>{{ venda.valor }}</td>
                         <td>{{ venda.nome }}</td>
-                        <td>{{ venda.descrição }}</td>
+                        <td>{{ venda.descricao }}</td>
                         <td>
                             <button
                                 @click="editarVenda(venda.id)"
@@ -129,7 +129,7 @@
                             </div>
                             <div class="form-group">
                                 <input
-                                    v-model="novaVenda.descrição"
+                                    v-model="novaVenda.descricao"
                                     class="form-control"
                                     placeholder="Descrição"
                                     required
@@ -171,12 +171,17 @@ export default {
             novaVenda: {
                 valor: "",
                 nome: "",
-                descrição: "",
+                descricao: "",
                 cliente_id: "",
+            },
+            vendaEmEdicao: { 
+            valor: "",
+            nome: "",
+            descricao: "",
+            cliente_id: "",
             },
             vendas: [],
             clientes: [],
-            vendaEmEdição: null,
             atualizacaoComSucesso: false,
         };
     },
@@ -197,7 +202,7 @@ export default {
                 });
         },
         editarVenda(vendaId) {
-            this.vendaEmEdição = vendaId;
+            this.vendaEmEdicao = vendaId;
             const vendaSelecionada = this.vendas.find(
                 (venda) => venda.id === vendaId
             );
@@ -206,12 +211,12 @@ export default {
         },
         salvarEdicao() {
             axios
-                .put(`/api/vendas/${this.vendaEmEdição.id}`, this.novaVenda)
+                .put(`/api/vendas/${this.vendaEmEdicao.id}`, this.novaVenda)
                 .then((response) => {
-                    const index = this.vendas.indexOf(this.vendaEmEdição);
+                    const index = this.vendas.indexOf(this.vendaEmEdicao);
                     this.vendas[index] = response.data;
                     this.novaVenda = {};
-                    this.vendaEmEdição = null;
+                    this.vendaEmEdicao = null;
 
                     $("#editarModal").modal("hide");
 

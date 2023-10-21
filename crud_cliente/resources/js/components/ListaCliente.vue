@@ -134,7 +134,7 @@ export default {
       formData.append('email', this.clienteEditado.email);
       formData.append('telefone', this.clienteEditado.telefone);
       formData.append('sexo', this.clienteEditado.sexo);
-    
+
       if (this.clienteEditado.foto instanceof File) {
         formData.append('foto', this.clienteEditado.foto);
       }

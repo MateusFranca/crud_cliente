@@ -2271,12 +2271,17 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       novaVenda: {
         valor: "",
         nome: "",
-        descrição: "",
+        descricao: "",
+        cliente_id: ""
+      },
+      vendaEmEdicao: {
+        valor: "",
+        nome: "",
+        descricao: "",
         cliente_id: ""
       },
       vendas: [],
       clientes: [],
-      vendaEmEdição: null,
       atualizacaoComSucesso: false
     };
   },
@@ -2293,7 +2298,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       });
     },
     editarVenda: function editarVenda(vendaId) {
-      this.vendaEmEdição = vendaId;
+      this.vendaEmEdicao = vendaId;
       var vendaSelecionada = this.vendas.find(function (venda) {
         return venda.id === vendaId;
       });
@@ -2302,11 +2307,11 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     },
     salvarEdicao: function salvarEdicao() {
       var _this2 = this;
-      axios.put("/api/vendas/".concat(this.vendaEmEdição.id), this.novaVenda).then(function (response) {
-        var index = _this2.vendas.indexOf(_this2.vendaEmEdição);
+      axios.put("/api/vendas/".concat(this.vendaEmEdicao.id), this.novaVenda).then(function (response) {
+        var index = _this2.vendas.indexOf(_this2.vendaEmEdicao);
         _this2.vendas[index] = response.data;
         _this2.novaVenda = {};
-        _this2.vendaEmEdição = null;
+        _this2.vendaEmEdicao = null;
         $("#editarModal").modal("hide");
         alert("Venda editada com sucesso!");
       })["catch"](function (error) {
@@ -2923,8 +2928,8 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.novaVenda.descrição,
-      expression: "novaVenda.descrição"
+      value: _vm.novaVenda.descricao,
+      expression: "novaVenda.descricao"
     }],
     staticClass: "form-control",
     attrs: {
@@ -2932,12 +2937,12 @@ var render = function render() {
       required: ""
     },
     domProps: {
-      value: _vm.novaVenda.descrição
+      value: _vm.novaVenda.descricao
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.$set(_vm.novaVenda, "descrição", $event.target.value);
+        _vm.$set(_vm.novaVenda, "descricao", $event.target.value);
       }
     }
   })]), _vm._v(" "), _c("div", {
@@ -2991,7 +2996,7 @@ var render = function render() {
     return _c("tr", {
       key: venda.id,
       staticClass: "hover-row"
-    }, [_c("td", [_vm._v(_vm._s(venda.valor))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(venda.nome))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(venda.descrição))]), _vm._v(" "), _c("td", [_c("button", {
+    }, [_c("td", [_vm._v(_vm._s(venda.valor))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(venda.nome))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(venda.descricao))]), _vm._v(" "), _c("td", [_c("button", {
       staticClass: "btn btn-primary",
       on: {
         click: function click($event) {
@@ -3079,8 +3084,8 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.novaVenda.descrição,
-      expression: "novaVenda.descrição"
+      value: _vm.novaVenda.descricao,
+      expression: "novaVenda.descricao"
     }],
     staticClass: "form-control",
     attrs: {
@@ -3088,12 +3093,12 @@ var render = function render() {
       required: ""
     },
     domProps: {
-      value: _vm.novaVenda.descrição
+      value: _vm.novaVenda.descricao
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.$set(_vm.novaVenda, "descrição", $event.target.value);
+        _vm.$set(_vm.novaVenda, "descricao", $event.target.value);
       }
     }
   })]), _vm._v(" "), _c("div", {

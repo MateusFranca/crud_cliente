@@ -19,7 +19,7 @@ class VendaController extends Controller
         $request->validate([
             'valor' => 'required',
             'nome' => 'required',
-            'descrição' => 'required',
+            'descricao' => 'required',
             'cliente_id' => 'required',
         ]);
 

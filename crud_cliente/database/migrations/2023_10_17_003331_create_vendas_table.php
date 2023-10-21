@@ -17,7 +17,7 @@ class CreateVendasTable extends Migration
             $table->id();
             $table->decimal('valor', 10, 2);
             $table->string('nome');
-            $table->text('descrição');
+            $table->text('descricao');
             $table->unsignedBigInteger('cliente_id');
             $table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('cascade');
             $table->timestamps();
